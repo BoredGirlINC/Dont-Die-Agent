@@ -1,0 +1,28 @@
+{
+  "name": "dont-die-agent",
+  "version": "1.0.0",
+  "description": "Don't Die Agent - Your AI Life Blueprint Generator",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "firebase": "^10.8.0",
+    "web3": "^4.5.0",
+    "@web3modal/ethereum": "^2.7.1",
+    "@web3modal/html": "^2.7.1",
+    "viem": "^1.21.4",
+    "wagmi": "^1.4.13",
+    "ethers": "^6.11.1",
+    "marked": "^12.0.0",
+    "daisyui": "^4.7.2"
+  },
+  "devDependencies": {
+    "vite": "^5.1.3",
+    "autoprefixer": "^10.4.17",
+    "postcss": "^8.4.35",
+    "tailwindcss": "^3.4.1"
+  }
+}

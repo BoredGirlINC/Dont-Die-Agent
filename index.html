@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Don't Die Agent - Your AI Life Blueprint Generator</title>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.7.2/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen bg-base-200">
+    <!-- Navigation -->
+    <div class="navbar bg-base-100">
+        <div class="flex-1">
+            <a class="btn btn-ghost text-xl">Don't Die Agent</a>
+        </div>
+        <div class="flex-none gap-2">
+            <button id="profile-button" class="btn btn-ghost" style="display: none;">
+                Profile
+            </button>
+            <button id="login-button" class="btn btn-primary">
+                Sign In
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Blueprint Section -->
+        <section id="blueprint-section" class="text-center mb-12">
+            <h1 class="text-5xl font-bold mb-8">Don't Die Agent</h1>
+            <p class="text-xl mb-8">Get your personalized life blueprint from an AI that doesn't want you to die.</p>
+            
+            <button id="get-blueprint-button" class="btn btn-primary btn-lg">
+                Get your Blueprint
+            </button>
+
+            <div id="blueprint-result" class="mt-8 prose mx-auto"></div>
+        </section>
+
+        <!-- Chat Section -->
+        <section id="chat-section" class="max-w-4xl mx-auto">
+            <div class="card bg-base-100 shadow-xl">
+                <div class="card-body p-0">
+                    <!-- Chat Messages -->
+                    <div id="chat-messages" class="h-[400px] overflow-y-auto p-4 space-y-4">
+                        <!-- Initial message -->
+                        <div class="chat chat-start">
+                            <div class="chat-image avatar">
+                                <div class="w-10 rounded-full bg-primary text-primary-content grid place-items-center">
+                                    <i class="bi bi-robot text-lg"></i>
+                                </div>
+                            </div>
+                            <div class="chat-bubble">
+                                Hello! I'm your longevity expert, well-versed in health and wellness. How can I help you optimize your life today?
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Chat Input -->
+                    <div class="border-t bg-base-200 p-4">
+                        <div class="flex gap-2">
+                            <input type="text" id="chat-input" 
+                                   class="input input-bordered flex-1" 
+                                   placeholder="Ask about longevity, health, or anything..."
+                                   onkeypress="if(event.key === 'Enter') document.getElementById('send-message').click()">
+                            <button id="send-message" class="btn btn-primary">
+                                <i class="bi bi-send"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Profile Section -->
+        <section id="profile-section" class="hidden">
+            <div class="flex items-center mb-8">
+                <div class="avatar">
+                    <div class="w-24 rounded-full">
+                        <img id="profile-image" src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" alt="Profile" />
+                    </div>
+                </div>
+                <div class="ml-4">
+                    <h2 id="profile-name" class="text-2xl font-bold">User Name</h2>
+                    <p id="profile-bio" class="text-gray-600">Bio</p>
+                </div>
+                <button id="edit-profile" class="btn btn-ghost ml-auto">Edit Profile</button>
+            </div>
+
+            <div class="divider">Your Blueprints</div>
+
+            <div id="blueprints-container" class="grid gap-4">
+                <!-- Blueprints will be rendered here -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Auth Modal -->
+    <div id="auth-modal" class="modal">
+        <div class="modal-box relative">
+            <button class="btn btn-sm btn-circle absolute right-2 top-2" onclick="document.getElementById('auth-modal').classList.remove('modal-open')">✕</button>
+            <h3 class="font-bold text-lg mb-4">Sign In</h3>
+            
+            <button id="google-signin" class="auth-button">
+                Continue with Google
+            </button>
+            
+            <button id="twitter-signin" class="auth-button">
+                Continue with Twitter
+            </button>
+            
+            <button id="metamask-signin" class="auth-button">
+                Continue with Metamask
+            </button>
+            
+            <div class="divider">OR</div>
+            
+            <form id="email-signin-form" class="form-control">
+                <input type="email" name="email" placeholder="Email" class="input input-bordered mb-2" required />
+                <input type="password" name="password" placeholder="Password" class="input input-bordered mb-2" required />
+                <button type="submit" class="btn btn-primary">Sign In with Email</button>
+            </form>
+        </div>
+        <form method="dialog" class="modal-backdrop">
+            <button>close</button>
+        </form>
+    </div>
+
+    <!-- Blueprint Form Modal -->
+    <div id="blueprint-form-modal" class="modal">
+        <div class="modal-box relative">
+            <button class="btn btn-sm btn-circle absolute right-2 top-2" onclick="document.getElementById('blueprint-form-modal').classList.remove('modal-open')">✕</button>
+            <h3 class="font-bold text-lg mb-4">Your Blueprint Details</h3>
+            <form id="blueprint-form" class="form-control">
+                <div class="form-control mb-4">
+                    <label class="label">
+                        <span class="label-text">Name</span>
+                    </label>
+                    <input type="text" id="name" name="name" class="input input-bordered" required>
+                </div>
+
+                <div class="form-control mb-4">
+                    <label class="label">
+                        <span class="label-text">City</span>
+                    </label>
+                    <input type="text" id="city" name="city" class="input input-bordered" required>
+                </div>
+
+                <div class="form-control mb-4">
+                    <label class="label">
+                        <span class="label-text">Country</span>
+                    </label>
+                    <input type="text" id="country" name="country" class="input input-bordered" required>
+                </div>
+
+                <div class="form-control mb-4">
+                    <label class="label">
+                        <span class="label-text">Dietary Options</span>
+                    </label>
+                    <select id="dietaryRestrictions" name="dietaryRestrictions" class="select select-bordered">
+                        <option value="">Select...</option>
+                        <option value="none">None</option>
+                        <option value="vegetarian">Vegetarian</option>
+                        <option value="vegan">Vegan</option>
+                        <option value="pescetarian">Pescetarian</option>
+                        <option value="gluten-free">Gluten-Free</option>
+                        <option value="dairy-free">Dairy-Free</option>
+                    </select>
+                </div>
+
+                <div class="form-control mb-4">
+                    <label class="label">
+                        <span class="label-text">Exercise Preferences</span>
+                    </label>
+                    <select id="exercisePreferences" name="exercisePreferences" class="select select-bordered">
+                        <option value="">Select...</option>
+                        <option value="cardio">Cardio</option>
+                        <option value="strength-training">Strength Training</option>
+                        <option value="yoga">Yoga</option>
+                        <option value="pilates">Pilates</option>
+                        <option value="running">Running</option>
+                        <option value="swimming">Swimming</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Generate Blueprint</button>
+            </form>
+        </div>
+        <form method="dialog" class="modal-backdrop">
+            <button>close</button>
+        </form>
+    </div>
+
+    <!-- Blueprint Result Modal -->
+    <div id="blueprint-result-modal" class="modal">
+        <div class="modal-box relative max-w-3xl">
+            <button class="btn btn-sm btn-circle absolute right-2 top-2" onclick="document.getElementById('blueprint-result-modal').classList.remove('modal-open')">✕</button>
+            <h3 class="font-bold text-lg mb-4">Your Personalized Blueprint</h3>
+            <div id="blueprint-result-content" class="prose max-w-none mb-4"></div>
+            <div class="modal-action">
+                <button id="save-blueprint" class="btn btn-primary">Save Blueprint</button>
+            </div>
+        </div>
+        <form method="dialog" class="modal-backdrop">
+            <button>close</button>
+        </form>
+    </div>
+
+    <!-- Edit Profile Modal -->
+    <div id="edit-profile-modal" class="modal">
+        <div class="modal-box relative">
+            <button class="btn btn-sm btn-circle absolute right-2 top-2" onclick="document.getElementById('edit-profile-modal').classList.remove('modal-open')">✕</button>
+            <h3 class="font-bold text-lg mb-4">Edit Profile</h3>
+            <form id="edit-profile-form" class="form-control">
+                <input type="text" name="displayName" placeholder="Display Name" class="input input-bordered mb-2" required />
+                <textarea name="bio" placeholder="Bio" class="textarea textarea-bordered mb-2"></textarea>
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+            </form>
+        </div>
+        <form method="dialog" class="modal-backdrop">
+            <button>close</button>
+        </form>
+    </div>
+
+    <!-- Loading Indicator -->
+    <div id="loading-indicator" class="fixed inset-0 bg-black bg-opacity-50 items-center justify-center hidden">
+        <div class="card bg-base-100 p-8">
+            <div class="loading loading-spinner loading-lg"></div>
+            <p class="mt-4 text-center">Thinking...</p>
+        </div>
+    </div>
+
+    <script type="module" src="/src/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,91 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom styles */
+.auth-button {
+  @apply btn btn-primary w-full mb-2;
+}
+
+.auth-modal {
+  @apply modal modal-bottom sm:modal-middle;
+}
+
+.profile-section {
+  @apply container mx-auto px-4 py-8;
+}
+
+.blueprint-card {
+  @apply card bg-base-100 shadow-xl mb-4;
+}
+
+.blueprint-content {
+  @apply p-4 prose max-w-none;
+}
+
+.blueprint-tag {
+  @apply badge badge-primary cursor-pointer;
+}
+
+.edit-tag-input {
+  @apply input input-bordered input-sm w-full max-w-xs;
+}
+
+/* Chat styles */
+.chat-bubble {
+  @apply prose max-w-none;
+}
+
+.chat-bubble p {
+  @apply m-0;
+}
+
+.chat-bubble ul, 
+.chat-bubble ol {
+  @apply my-2;
+}
+
+#chat-messages::-webkit-scrollbar {
+  @apply w-2;
+}
+
+#chat-messages::-webkit-scrollbar-track {
+  @apply bg-base-200;
+}
+
+#chat-messages::-webkit-scrollbar-thumb {
+  @apply bg-base-300 rounded-full;
+}
+
+/* Animations */
+.fade-enter {
+  opacity: 0;
+}
+
+.fade-enter-active {
+  opacity: 1;
+  transition: opacity 200ms ease-in;
+}
+
+.fade-exit {
+  opacity: 1;
+}
+
+.fade-exit-active {
+  opacity: 0;
+  transition: opacity 200ms ease-in;
+}
+
+/* Loading animation */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+} 
