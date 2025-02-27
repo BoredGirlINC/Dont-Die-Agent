@@ -1,25 +1,28 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en" data-theme="dontdie">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Don't Die Agent - Your AI Life Blueprint Generator</title>
     <link href="https://cdn.jsdelivr.net/npm/daisyui@4.7.2/dist/full.min.css" rel="stylesheet" type="text/css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="min-h-screen bg-base-200">
+<body class="min-h-screen bg-[#fef4f8]">
     <!-- Navigation -->
-    <div class="navbar bg-base-100">
+    <div class="navbar bg-[#f83c89] text-white shadow-lg">
         <div class="flex-1">
-            <a class="btn btn-ghost text-xl">Don't Die Agent</a>
+            <a class="btn btn-ghost text-xl">
+                <span class="text-[#ffd541] font-bold">Don't Die</span> Agent
+            </a>
         </div>
         <div class="flex-none gap-2">
-            <button id="profile-button" class="btn btn-ghost" style="display: none;">
-                Profile
+            <button id="profile-button" class="btn bg-[#7cc0e4] hover:bg-[#5fa9d0] border-none text-white" style="display: none;">
+                <i class="bi bi-person-circle mr-2"></i> Profile
             </button>
-            <button id="login-button" class="btn btn-primary">
-                Sign In
+            <button id="login-button" class="btn bg-[#ffd541] hover:bg-[#ebc23a] border-none text-[#464655]">
+                <i class="bi bi-box-arrow-in-right mr-2"></i> Sign In
             </button>
         </div>
     </div>
@@ -28,43 +31,84 @@
     <main class="container mx-auto px-4 py-8">
         <!-- Blueprint Section -->
         <section id="blueprint-section" class="text-center mb-12">
-            <h1 class="text-5xl font-bold mb-8">Don't Die Agent</h1>
-            <p class="text-xl mb-8">Get your personalized life blueprint from an AI that doesn't want you to die.</p>
+            <div class="character-container flex justify-center mb-4">
+                <div class="animate-bounce-slow">
+                    <img src="https://ik.imagekit.io/dwtd/characters/Bean_Green.png" alt="Character" class="w-32 h-32">
+                </div>
+            </div>
             
-            <button id="get-blueprint-button" class="btn btn-primary btn-lg">
-                Get your Blueprint
+            <h1 class="fun-title">Don't Die Agent</h1>
+            <p class="fun-subtitle">Get your personalized life blueprint from an AI that doesn't want you to die.</p>
+            
+            <button id="get-blueprint-button" class="btn bg-[#f83c89] hover:bg-[#e0357a] border-none text-white text-lg px-8 py-3 rounded-full shadow-lg transform transition hover:scale-105">
+                <i class="bi bi-clipboard2-pulse-fill mr-2"></i> Get your Blueprint
             </button>
 
-            <div id="blueprint-result" class="mt-8 prose mx-auto"></div>
+            <div class="mt-8 flex justify-center">
+                <div class="bg-white p-6 rounded-xl border-4 border-[#ffd541] shadow-xl max-w-lg">
+                    <h2 class="text-2xl font-bold text-[#464655] mb-4">Why Use Don't Die Agent?</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="flex items-start">
+                            <div class="text-[#f83c89] mr-2 text-xl">💪</div>
+                            <p class="text-left">Personalized health recommendations</p>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="text-[#f83c89] mr-2 text-xl">🧠</div>
+                            <p class="text-left">Mental wellness strategies</p>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="text-[#f83c89] mr-2 text-xl">🍎</div>
+                            <p class="text-left">Custom diet plans</p>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="text-[#f83c89] mr-2 text-xl">🛌</div>
+                            <p class="text-left">Sleep optimization advice</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
 
         <!-- Chat Section -->
         <section id="chat-section" class="max-w-4xl mx-auto">
-            <div class="card bg-base-100 shadow-xl">
+            <div class="card bg-white shadow-xl border-4 border-[#f83c89] rounded-xl overflow-hidden">
+                <div class="card-header bg-[#f83c89] text-white p-4">
+                    <div class="flex items-center">
+                        <div class="avatar">
+                            <div class="w-12 h-12 rounded-full bg-white p-1">
+                                <img src="https://ik.imagekit.io/dwtd/characters/Bean_Green.png" alt="AI Assistant" />
+                            </div>
+                        </div>
+                        <div class="ml-4">
+                            <h3 class="text-xl font-bold">Health Assistant</h3>
+                            <p class="text-sm opacity-80">Here to help you not die</p>
+                        </div>
+                    </div>
+                </div>
                 <div class="card-body p-0">
                     <!-- Chat Messages -->
-                    <div id="chat-messages" class="h-[400px] overflow-y-auto p-4 space-y-4">
+                    <div id="chat-messages" class="h-[400px] overflow-y-auto p-4 space-y-4 bg-[#fef4f8]">
                         <!-- Initial message -->
                         <div class="chat chat-start">
                             <div class="chat-image avatar">
-                                <div class="w-10 rounded-full bg-primary text-primary-content grid place-items-center">
+                                <div class="w-10 rounded-full bg-[#7cc0e4] text-white grid place-items-center">
                                     <i class="bi bi-robot text-lg"></i>
                                 </div>
                             </div>
-                            <div class="chat-bubble">
+                            <div class="chat-bubble bg-[#7cc0e4] text-white">
                                 Hello! I'm your longevity expert, well-versed in health and wellness. How can I help you optimize your life today?
                             </div>
                         </div>
                     </div>
 
                     <!-- Chat Input -->
-                    <div class="border-t bg-base-200 p-4">
+                    <div class="border-t bg-white p-4">
                         <div class="flex gap-2">
                             <input type="text" id="chat-input" 
-                                   class="input input-bordered flex-1" 
+                                   class="input bg-[#fef4f8] border-2 border-[#7cc0e4] flex-1" 
                                    placeholder="Ask about longevity, health, or anything..."
                                    onkeypress="if(event.key === 'Enter') document.getElementById('send-message').click()">
-                            <button id="send-message" class="btn btn-primary">
+                            <button id="send-message" class="btn bg-[#7cc0e4] hover:bg-[#5fa9d0] border-none text-white">
                                 <i class="bi bi-send"></i>
                             </button>
                         </div>
@@ -75,20 +119,26 @@
 
         <!-- Profile Section -->
         <section id="profile-section" class="hidden">
-            <div class="flex items-center mb-8">
-                <div class="avatar">
-                    <div class="w-24 rounded-full">
-                        <img id="profile-image" src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" alt="Profile" />
+            <div class="bg-white p-6 rounded-xl border-4 border-[#f83c89] shadow-xl mb-8">
+                <div class="flex items-center">
+                    <div class="avatar">
+                        <div class="w-24 h-24 rounded-full border-4 border-[#ffd541]">
+                            <img id="profile-image" src="https://ik.imagekit.io/dwtd/characters/Bean_Blue.png" alt="Profile" />
+                        </div>
                     </div>
+                    <div class="ml-4">
+                        <h2 id="profile-name" class="text-2xl font-bold text-[#464655]">User Name</h2>
+                        <p id="profile-bio" class="text-[#464655]">Bio</p>
+                    </div>
+                    <button id="edit-profile" class="btn bg-[#7cc0e4] hover:bg-[#5fa9d0] border-none text-white ml-auto">
+                        <i class="bi bi-pencil-fill mr-2"></i> Edit Profile
+                    </button>
                 </div>
-                <div class="ml-4">
-                    <h2 id="profile-name" class="text-2xl font-bold">User Name</h2>
-                    <p id="profile-bio" class="text-gray-600">Bio</p>
-                </div>
-                <button id="edit-profile" class="btn btn-ghost ml-auto">Edit Profile</button>
             </div>
 
-            <div class="divider">Your Blueprints</div>
+            <div class="divider">
+                <div class="bg-[#ffd541] text-[#464655] px-4 py-1 rounded-full font-bold">Your Blueprints</div>
+            </div>
 
             <div id="blueprints-container" class="grid gap-4">
                 <!-- Blueprints will be rendered here -->
@@ -98,28 +148,30 @@
 
     <!-- Auth Modal -->
     <div id="auth-modal" class="modal">
-        <div class="modal-box relative">
-            <button class="btn btn-sm btn-circle absolute right-2 top-2" onclick="document.getElementById('auth-modal').classList.remove('modal-open')">✕</button>
-            <h3 class="font-bold text-lg mb-4">Sign In</h3>
+        <div class="modal-box relative bg-white border-4 border-[#f83c89] rounded-xl">
+            <button class="btn btn-sm btn-circle absolute right-2 top-2 bg-[#ffd541] border-none text-[#464655]" onclick="document.getElementById('auth-modal').classList.remove('modal-open')">✕</button>
+            <h3 class="font-bold text-2xl mb-4 text-[#f83c89]">Sign In</h3>
             
             <button id="google-signin" class="auth-button">
-                Continue with Google
+                <i class="bi bi-google mr-2"></i> Continue with Google
             </button>
             
             <button id="twitter-signin" class="auth-button">
-                Continue with Twitter
+                <i class="bi bi-twitter mr-2"></i> Continue with Twitter
             </button>
             
             <button id="metamask-signin" class="auth-button">
-                Continue with Metamask
+                <i class="bi bi-wallet2 mr-2"></i> Continue with Metamask
             </button>
             
             <div class="divider">OR</div>
             
             <form id="email-signin-form" class="form-control">
-                <input type="email" name="email" placeholder="Email" class="input input-bordered mb-2" required />
-                <input type="password" name="password" placeholder="Password" class="input input-bordered mb-2" required />
-                <button type="submit" class="btn btn-primary">Sign In with Email</button>
+                <input type="email" name="email" placeholder="Email" class="input bg-[#fef4f8] border-2 border-[#7cc0e4] mb-2" required />
+                <input type="password" name="password" placeholder="Password" class="input bg-[#fef4f8] border-2 border-[#7cc0e4] mb-2" required />
+                <button type="submit" class="btn bg-[#f83c89] hover:bg-[#e0357a] border-none text-white">
+                    <i class="bi bi-envelope-fill mr-2"></i> Sign In with Email
+                </button>
             </form>
         </div>
         <form method="dialog" class="modal-backdrop">
@@ -129,36 +181,37 @@
 
     <!-- Blueprint Form Modal -->
     <div id="blueprint-form-modal" class="modal">
-        <div class="modal-box relative">
-            <button class="btn btn-sm btn-circle absolute right-2 top-2" onclick="document.getElementById('blueprint-form-modal').classList.remove('modal-open')">✕</button>
-            <h3 class="font-bold text-lg mb-4">Your Blueprint Details</h3>
+        <div class="modal-box relative bg-white border-4 border-[#f83c89] rounded-xl">
+            <button class="btn btn-sm btn-circle absolute right-2 top-2 bg-[#ffd541] border-none text-[#464655]" onclick="document.getElementById('blueprint-form-modal').classList.remove('modal-open')">✕</button>
+            <h3 class="font-bold text-2xl mb-4 text-[#f83c89]">Your Blueprint Details</h3>
+            
             <form id="blueprint-form" class="form-control">
                 <div class="form-control mb-4">
                     <label class="label">
-                        <span class="label-text">Name</span>
+                        <span class="label-text font-semibold text-[#464655]">Name</span>
                     </label>
-                    <input type="text" id="name" name="name" class="input input-bordered" required>
+                    <input type="text" id="name" name="name" class="input bg-[#fef4f8] border-2 border-[#7cc0e4]" required>
                 </div>
 
                 <div class="form-control mb-4">
                     <label class="label">
-                        <span class="label-text">City</span>
+                        <span class="label-text font-semibold text-[#464655]">City</span>
                     </label>
-                    <input type="text" id="city" name="city" class="input input-bordered" required>
+                    <input type="text" id="city" name="city" class="input bg-[#fef4f8] border-2 border-[#7cc0e4]" required>
                 </div>
 
                 <div class="form-control mb-4">
                     <label class="label">
-                        <span class="label-text">Country</span>
+                        <span class="label-text font-semibold text-[#464655]">Country</span>
                     </label>
-                    <input type="text" id="country" name="country" class="input input-bordered" required>
+                    <input type="text" id="country" name="country" class="input bg-[#fef4f8] border-2 border-[#7cc0e4]" required>
                 </div>
 
                 <div class="form-control mb-4">
                     <label class="label">
-                        <span class="label-text">Dietary Options</span>
+                        <span class="label-text font-semibold text-[#464655]">Dietary Options</span>
                     </label>
-                    <select id="dietaryRestrictions" name="dietaryRestrictions" class="select select-bordered">
+                    <select id="dietaryRestrictions" name="dietaryRestrictions" class="select bg-[#fef4f8] border-2 border-[#7cc0e4]">
                         <option value="">Select...</option>
                         <option value="none">None</option>
                         <option value="vegetarian">Vegetarian</option>
@@ -171,9 +224,9 @@
 
                 <div class="form-control mb-4">
                     <label class="label">
-                        <span class="label-text">Exercise Preferences</span>
+                        <span class="label-text font-semibold text-[#464655]">Exercise Preferences</span>
                     </label>
-                    <select id="exercisePreferences" name="exercisePreferences" class="select select-bordered">
+                    <select id="exercisePreferences" name="exercisePreferences" class="select bg-[#fef4f8] border-2 border-[#7cc0e4]">
                         <option value="">Select...</option>
                         <option value="cardio">Cardio</option>
                         <option value="strength-training">Strength Training</option>
@@ -184,7 +237,9 @@
                     </select>
                 </div>
 
-                <button type="submit" class="btn btn-primary">Generate Blueprint</button>
+                <button type="submit" class="btn bg-[#f83c89] hover:bg-[#e0357a] border-none text-white">
+                    <i class="bi bi-magic mr-2"></i> Generate Blueprint
+                </button>
             </form>
         </div>
         <form method="dialog" class="modal-backdrop">
@@ -194,12 +249,14 @@
 
     <!-- Blueprint Result Modal -->
     <div id="blueprint-result-modal" class="modal">
-        <div class="modal-box relative max-w-3xl">
-            <button class="btn btn-sm btn-circle absolute right-2 top-2" onclick="document.getElementById('blueprint-result-modal').classList.remove('modal-open')">✕</button>
-            <h3 class="font-bold text-lg mb-4">Your Personalized Blueprint</h3>
-            <div id="blueprint-result-content" class="prose max-w-none mb-4"></div>
+        <div class="modal-box relative max-w-3xl bg-white border-4 border-[#f83c89] rounded-xl">
+            <button class="btn btn-sm btn-circle absolute right-2 top-2 bg-[#ffd541] border-none text-[#464655]" onclick="document.getElementById('blueprint-result-modal').classList.remove('modal-open')">✕</button>
+            <h3 class="font-bold text-2xl mb-4 text-[#f83c89]">Your Personalized Blueprint</h3>
+            <div id="blueprint-result-content" class="prose max-w-none mb-4 bg-[#fef4f8] p-4 rounded-lg"></div>
             <div class="modal-action">
-                <button id="save-blueprint" class="btn btn-primary">Save Blueprint</button>
+                <button id="save-blueprint" class="btn bg-[#7cc0e4] hover:bg-[#5fa9d0] border-none text-white">
+                    <i class="bi bi-save mr-2"></i> Save Blueprint
+                </button>
             </div>
         </div>
         <form method="dialog" class="modal-backdrop">
@@ -209,13 +266,15 @@
 
     <!-- Edit Profile Modal -->
     <div id="edit-profile-modal" class="modal">
-        <div class="modal-box relative">
-            <button class="btn btn-sm btn-circle absolute right-2 top-2" onclick="document.getElementById('edit-profile-modal').classList.remove('modal-open')">✕</button>
-            <h3 class="font-bold text-lg mb-4">Edit Profile</h3>
+        <div class="modal-box relative bg-white border-4 border-[#f83c89] rounded-xl">
+            <button class="btn btn-sm btn-circle absolute right-2 top-2 bg-[#ffd541] border-none text-[#464655]" onclick="document.getElementById('edit-profile-modal').classList.remove('modal-open')">✕</button>
+            <h3 class="font-bold text-2xl mb-4 text-[#f83c89]">Edit Profile</h3>
             <form id="edit-profile-form" class="form-control">
-                <input type="text" name="displayName" placeholder="Display Name" class="input input-bordered mb-2" required />
-                <textarea name="bio" placeholder="Bio" class="textarea textarea-bordered mb-2"></textarea>
-                <button type="submit" class="btn btn-primary">Save Changes</button>
+                <input type="text" name="displayName" placeholder="Display Name" class="input bg-[#fef4f8] border-2 border-[#7cc0e4] mb-2" required />
+                <textarea name="bio" placeholder="Bio" class="textarea bg-[#fef4f8] border-2 border-[#7cc0e4] mb-2"></textarea>
+                <button type="submit" class="btn bg-[#f83c89] hover:bg-[#e0357a] border-none text-white">
+                    <i class="bi bi-check-lg mr-2"></i> Save Changes
+                </button>
             </form>
         </div>
         <form method="dialog" class="modal-backdrop">
@@ -225,11 +284,26 @@
 
     <!-- Loading Indicator -->
     <div id="loading-indicator" class="fixed inset-0 bg-black bg-opacity-50 items-center justify-center hidden">
-        <div class="card bg-base-100 p-8">
-            <div class="loading loading-spinner loading-lg"></div>
-            <p class="mt-4 text-center">Thinking...</p>
+        <div class="card bg-white p-8 border-4 border-[#f83c89] rounded-xl">
+            <div class="flex flex-col items-center">
+                <img src="https://ik.imagekit.io/dwtd/characters/Bean_Green.png" alt="Loading" class="w-20 h-20 animate-bounce-slow mb-4">
+                <div class="loading loading-spinner loading-lg text-[#f83c89]"></div>
+                <p class="mt-4 text-center text-[#464655] font-bold">Thinking...</p>
+            </div>
         </div>
     </div>
+
+    <footer class="bg-[#464655] text-white p-6 mt-12">
+        <div class="container mx-auto text-center">
+            <p class="text-lg mb-2">Don't Die Agent - Your AI Life Blueprint Generator</p>
+            <p class="text-sm opacity-70">Inspired by the Dumb Ways to Die safety campaign</p>
+            <div class="flex justify-center mt-4 space-x-4">
+                <a href="#" class="text-[#ffd541] hover:text-[#f83c89]"><i class="bi bi-github text-xl"></i></a>
+                <a href="#" class="text-[#ffd541] hover:text-[#f83c89]"><i class="bi bi-twitter text-xl"></i></a>
+                <a href="#" class="text-[#ffd541] hover:text-[#f83c89]"><i class="bi bi-envelope-fill text-xl"></i></a>
+            </div>
+        </div>
+    </footer>
 
     <script type="module" src="/src/main.js"></script>
 </body>

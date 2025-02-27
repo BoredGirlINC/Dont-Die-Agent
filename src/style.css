@@ -2,13 +2,59 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --color-primary: #f83c89;      /* Pink */
+  --color-secondary: #7cc0e4;    /* Light Blue */
+  --color-accent: #ffd541;       /* Yellow */
+  --color-neutral: #e1e4ea;      /* Light Gray */
+  --color-dark: #464655;         /* Dark Gray/Blue */
+  --color-danger: #e05263;       /* Red */
+  --color-success: #56c271;      /* Green */
+  --font-playful: 'Nunito', 'Comic Sans MS', sans-serif;
+}
+
+/* Global styles */
+body {
+  font-family: var(--font-playful);
+  @apply bg-[#fef4f8];
+}
+
+.navbar {
+  @apply bg-[#f83c89] text-white;
+}
+
+.btn-primary {
+  @apply bg-[#f83c89] hover:bg-[#e0357a] border-[#f83c89] hover:border-[#e0357a] text-white;
+}
+
+.btn-secondary {
+  @apply bg-[#7cc0e4] hover:bg-[#5fa9d0] border-[#7cc0e4] hover:border-[#5fa9d0] text-white;
+}
+
+.btn-accent {
+  @apply bg-[#ffd541] hover:bg-[#ebc23a] border-[#ffd541] hover:border-[#ebc23a] text-[#464655];
+}
+
+.card {
+  @apply bg-white rounded-xl border-2 border-[#f83c89];
+}
+
+/* Character illustrations */
+.character {
+  @apply inline-block w-16 h-16 bg-center bg-no-repeat bg-contain;
+}
+
 /* Custom styles */
 .auth-button {
-  @apply btn btn-primary w-full mb-2;
+  @apply btn w-full mb-2 bg-[#7cc0e4] hover:bg-[#5fa9d0] border-[#7cc0e4] hover:border-[#5fa9d0] text-white;
 }
 
 .auth-modal {
   @apply modal modal-bottom sm:modal-middle;
+}
+
+.auth-modal .modal-box {
+  @apply bg-white border-4 border-[#f83c89] rounded-xl;
 }
 
 .profile-section {
@@ -16,7 +62,7 @@
 }
 
 .blueprint-card {
-  @apply card bg-base-100 shadow-xl mb-4;
+  @apply card bg-white shadow-xl mb-4 border-2 border-[#f83c89] rounded-xl overflow-hidden;
 }
 
 .blueprint-content {
@@ -24,16 +70,24 @@
 }
 
 .blueprint-tag {
-  @apply badge badge-primary cursor-pointer;
+  @apply badge bg-[#ffd541] text-[#464655] border-[#ffd541] cursor-pointer m-2;
 }
 
 .edit-tag-input {
-  @apply input input-bordered input-sm w-full max-w-xs;
+  @apply input input-bordered input-sm w-full max-w-xs border-[#7cc0e4];
 }
 
 /* Chat styles */
 .chat-bubble {
   @apply prose max-w-none;
+}
+
+.chat-bubble.chat-bubble-primary {
+  @apply bg-[#f83c89] text-white;
+}
+
+.chat-bubble.chat-bubble-secondary {
+  @apply bg-[#7cc0e4] text-white;
 }
 
 .chat-bubble p {
@@ -50,11 +104,26 @@
 }
 
 #chat-messages::-webkit-scrollbar-track {
-  @apply bg-base-200;
+  @apply bg-[#e1e4ea];
 }
 
 #chat-messages::-webkit-scrollbar-thumb {
-  @apply bg-base-300 rounded-full;
+  @apply bg-[#f83c89] rounded-full;
+}
+
+/* Modal styles */
+.modal-box {
+  @apply bg-white border-4 border-[#f83c89] rounded-xl;
+}
+
+/* Fun title styling */
+.fun-title {
+  @apply text-5xl font-bold text-[#f83c89] mb-4;
+  text-shadow: 2px 2px 0 #ffd541;
+}
+
+.fun-subtitle {
+  @apply text-xl text-[#464655] mb-8;
 }
 
 /* Animations */
@@ -76,6 +145,20 @@
   transition: opacity 200ms ease-in;
 }
 
+/* Bouncy animation */
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.animate-bounce-slow {
+  animation: bounce 2s ease-in-out infinite;
+}
+
 /* Loading animation */
 @keyframes pulse {
   0%, 100% {
@@ -88,4 +171,20 @@
 
 .animate-pulse {
   animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Fun patterns */
+.pattern-dots {
+  background-image: radial-gradient(#f83c89 2px, transparent 2px);
+  background-size: 20px 20px;
+}
+
+.pattern-stripes {
+  background: repeating-linear-gradient(
+    45deg,
+    #ffd541,
+    #ffd541 10px,
+    #fff 10px,
+    #fff 20px
+  );
 } 

@@ -1,6 +1,6 @@
 # Don't Die Agent - Your AI Life Blueprint Generator
 
-A web application that generates personalized life blueprints to help you live a longer, healthier life. Built with modern web technologies and Firebase integration for user management and data persistence.
+A web application that generates personalized life blueprints to help you live a longer, healthier life. Built with modern web technologies and Firebase integration for user management and data persistence. The visual theme is inspired by the popular "Dumb Ways to Die" safety campaign.
 
 ## Features
 
@@ -9,6 +9,8 @@ A web application that generates personalized life blueprints to help you live a
 - 💾 Blueprint History Storage
 - 🏷️ Custom Blueprint Tagging
 - 👤 User Profile Management
+- 💬 AI Chat Interface for Health Questions
+- 🎨 Playful Visual Theme
 
 ## Tech Stack
 
@@ -16,6 +18,7 @@ A web application that generates personalized life blueprints to help you live a
 - Firebase (Authentication & Database)
 - TailwindCSS + DaisyUI (Styling)
 - Web3 Integration (Metamask Authentication)
+- Marked.js (Markdown Rendering)
 
 ## Prerequisites
 
@@ -30,8 +33,8 @@ A web application that generates personalized life blueprints to help you live a
 
 1. Clone the repository:
 ```bash
-git clone <repository-url>
-cd dont-die-agent
+git clone https://github.com/BoredGirlINC/Dont-Die-Agent.git
+cd Dont-Die-Agent
 ```
 
 2. Install dependencies:
@@ -55,18 +58,18 @@ npm run dev
 ## Project Structure
 
 ```
-dont-die-agent/
+Dont-Die-Agent/
 ├── src/
 │   ├── services/
 │   │   ├── auth.js        # Authentication service
 │   │   └── blueprint.js   # Blueprint management service
 │   ├── firebase.js        # Firebase configuration
-│   ├── main.js           # Main application logic
-│   └── style.css         # Global styles
-├── index.html            # Main HTML file
-├── package.json          # Project dependencies
-├── vite.config.js        # Vite configuration
-└── README.md            # Project documentation
+│   ├── main.js            # Main application logic
+│   └── style.css          # Global styles
+├── index.html             # Main HTML file
+├── package.json           # Project dependencies
+├── vite.config.js         # Vite configuration
+└── README.md              # Project documentation
 ```
 
 ## Usage
@@ -76,6 +79,11 @@ dont-die-agent/
 3. Click "Get your Blueprint" to generate a personalized blueprint
 4. View your saved blueprints in your profile
 5. Add custom tags to organize your blueprints
+6. Use the AI chat interface to ask health and longevity questions
+
+## Design Inspiration
+
+The visual theme is inspired by the popular "Dumb Ways to Die" safety campaign, which uses a playful, vibrant aesthetic to communicate serious messages about safety and well-being.
 
 ## Contributing
 
