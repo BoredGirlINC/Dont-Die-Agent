@@ -129,11 +129,37 @@
                     <div class="ml-4">
                         <h2 id="profile-name" class="text-2xl font-bold text-[#464655]">User Name</h2>
                         <p id="profile-bio" class="text-[#464655]">Bio</p>
+                        
+                        <!-- Emoji Status Section -->
+                        <div class="mt-2">
+                            <p class="text-[#464655] text-sm font-medium">me rn:</p>
+                            <div id="emoji-status" class="flex mt-1 gap-1">
+                                <div class="emoji-slot w-10 h-10 bg-[#fef4f8] rounded-full flex items-center justify-center text-2xl cursor-pointer border-2 border-[#f83c89]">
+                                    😊
+                                </div>
+                                <div class="emoji-slot w-10 h-10 bg-[#fef4f8] rounded-full flex items-center justify-center text-2xl cursor-pointer border-2 border-[#f83c89]">
+                                    👍
+                                </div>
+                                <div class="emoji-slot w-10 h-10 bg-[#fef4f8] rounded-full flex items-center justify-center text-2xl cursor-pointer border-2 border-[#f83c89]">
+                                    🎉
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <button id="edit-profile" class="btn bg-[#7cc0e4] hover:bg-[#5fa9d0] border-none text-white ml-auto">
-                        <i class="bi bi-pencil-fill mr-2"></i> Edit Profile
-                    </button>
+                    <div class="ml-auto flex gap-2">
+                        <button id="edit-profile" class="btn bg-[#7cc0e4] hover:bg-[#5fa9d0] border-none text-white">
+                            <i class="bi bi-pencil-fill mr-2"></i> Edit Profile
+                        </button>
+                        <button id="sign-out" class="btn bg-[#ffd541] hover:bg-[#ebc23a] border-none text-[#464655]">
+                            <i class="bi bi-box-arrow-right mr-2"></i> Sign Out
+                        </button>
+                    </div>
                 </div>
+            </div>
+
+            <div class="alert bg-[#56c271] text-white mb-6">
+                <i class="bi bi-check-circle-fill text-2xl"></i>
+                <span>You logged in successfully! Here are your saved blueprints.</span>
             </div>
 
             <div class="divider">
@@ -144,6 +170,56 @@
                 <!-- Blueprints will be rendered here -->
             </div>
         </section>
+        
+        <!-- Add Emoji Modal -->
+        <div id="emoji-modal" class="modal">
+            <div class="modal-box relative bg-white border-4 border-[#f83c89] rounded-xl max-h-[90vh] overflow-y-auto">
+                <button class="btn btn-sm btn-circle absolute right-2 top-2 bg-[#ffd541] border-none text-[#464655]" onclick="document.getElementById('emoji-modal').classList.remove('modal-open')">✕</button>
+                <h3 class="font-bold text-2xl mb-4 text-[#f83c89]">Select an Emoji</h3>
+                
+                <input type="text" id="emoji-search" placeholder="Search emojis..." class="input bg-[#fef4f8] border-2 border-[#7cc0e4] w-full mb-4">
+                
+                <div id="current-selection" class="mb-4 p-3 bg-[#fef4f8] rounded-lg text-center">
+                    <span class="text-[#464655] text-sm">Currently selected:</span>
+                    <div class="text-5xl mt-2">😊</div>
+                </div>
+                
+                <!-- Common Emoji Categories -->
+                <div class="grid grid-cols-8 gap-2 mb-6">
+                    <button class="emoji-category btn btn-sm bg-[#ffd541] border-none text-[#464655]" data-category="smileys">😊</button>
+                    <button class="emoji-category btn btn-sm bg-[#ffd541] border-none text-[#464655]" data-category="people">👋</button>
+                    <button class="emoji-category btn btn-sm bg-[#ffd541] border-none text-[#464655]" data-category="animals">🐱</button>
+                    <button class="emoji-category btn btn-sm bg-[#ffd541] border-none text-[#464655]" data-category="food">🍎</button>
+                    <button class="emoji-category btn btn-sm bg-[#ffd541] border-none text-[#464655]" data-category="activities">⚽</button>
+                    <button class="emoji-category btn btn-sm bg-[#ffd541] border-none text-[#464655]" data-category="travel">🚗</button>
+                    <button class="emoji-category btn btn-sm bg-[#ffd541] border-none text-[#464655]" data-category="objects">💡</button>
+                    <button class="emoji-category btn btn-sm bg-[#ffd541] border-none text-[#464655]" data-category="symbols">❤️</button>
+                </div>
+                
+                <!-- Emoji Grid -->
+                <div id="emoji-grid" class="grid grid-cols-8 gap-2">
+                    <!-- Emojis will be loaded here -->
+                    <button class="emoji-btn p-2 text-2xl hover:bg-[#fef4f8] rounded">😀</button>
+                    <button class="emoji-btn p-2 text-2xl hover:bg-[#fef4f8] rounded">😃</button>
+                    <button class="emoji-btn p-2 text-2xl hover:bg-[#fef4f8] rounded">😄</button>
+                    <button class="emoji-btn p-2 text-2xl hover:bg-[#fef4f8] rounded">😁</button>
+                    <button class="emoji-btn p-2 text-2xl hover:bg-[#fef4f8] rounded">😆</button>
+                    <button class="emoji-btn p-2 text-2xl hover:bg-[#fef4f8] rounded">😅</button>
+                    <button class="emoji-btn p-2 text-2xl hover:bg-[#fef4f8] rounded">🤣</button>
+                    <button class="emoji-btn p-2 text-2xl hover:bg-[#fef4f8] rounded">😂</button>
+                    <!-- More emojis would be added dynamically -->
+                </div>
+                
+                <div class="modal-action">
+                    <button id="save-emoji" class="btn bg-[#f83c89] hover:bg-[#e0357a] border-none text-white">
+                        <i class="bi bi-check-lg mr-2"></i> Save
+                    </button>
+                </div>
+            </div>
+            <form method="dialog" class="modal-backdrop">
+                <button>close</button>
+            </form>
+        </div>
     </main>
 
     <!-- Auth Modal -->
@@ -160,10 +236,6 @@
                 <i class="bi bi-twitter mr-2"></i> Continue with Twitter
             </button>
             
-            <button id="metamask-signin" class="auth-button">
-                <i class="bi bi-wallet2 mr-2"></i> Continue with Metamask
-            </button>
-            
             <div class="divider">OR</div>
             
             <form id="email-signin-form" class="form-control">
@@ -173,6 +245,58 @@
                     <i class="bi bi-envelope-fill mr-2"></i> Sign In with Email
                 </button>
             </form>
+            
+            <div class="mt-4 text-center">
+                <p class="text-[#464655] mb-2">Don't have an account?</p>
+                <button id="open-signup-modal" class="btn bg-[#ffd541] hover:bg-[#ebc23a] border-none text-[#464655]">
+                    <i class="bi bi-person-plus-fill mr-2"></i> Sign Up
+                </button>
+            </div>
+        </div>
+        <form method="dialog" class="modal-backdrop">
+            <button>close</button>
+        </form>
+    </div>
+
+    <!-- Signup Modal -->
+    <div id="signup-modal" class="modal">
+        <div class="modal-box relative bg-white border-4 border-[#f83c89] rounded-xl">
+            <button class="btn btn-sm btn-circle absolute right-2 top-2 bg-[#ffd541] border-none text-[#464655]" onclick="document.getElementById('signup-modal').classList.remove('modal-open')">✕</button>
+            <h3 class="font-bold text-2xl mb-4 text-[#f83c89]">Create Account</h3>
+            
+            <form id="signup-form" class="form-control">
+                <div class="form-control mb-4">
+                    <label class="label">
+                        <span class="label-text font-semibold text-[#464655]">Alias</span>
+                    </label>
+                    <input type="text" name="alias" placeholder="Choose a display name" class="input bg-[#fef4f8] border-2 border-[#7cc0e4]" required />
+                </div>
+                
+                <div class="form-control mb-4">
+                    <label class="label">
+                        <span class="label-text font-semibold text-[#464655]">Email</span>
+                    </label>
+                    <input type="email" name="email" placeholder="Your email address" class="input bg-[#fef4f8] border-2 border-[#7cc0e4]" required />
+                </div>
+                
+                <div class="form-control mb-4">
+                    <label class="label">
+                        <span class="label-text font-semibold text-[#464655]">Password</span>
+                    </label>
+                    <input type="password" name="password" placeholder="Secure password" class="input bg-[#fef4f8] border-2 border-[#7cc0e4]" required />
+                </div>
+                
+                <button type="submit" class="btn bg-[#f83c89] hover:bg-[#e0357a] border-none text-white">
+                    <i class="bi bi-check-lg mr-2"></i> Create Account
+                </button>
+            </form>
+            
+            <div class="mt-4 text-center">
+                <p class="text-[#464655] mb-2">Already have an account?</p>
+                <button id="back-to-signin" class="btn bg-[#7cc0e4] hover:bg-[#5fa9d0] border-none text-white">
+                    <i class="bi bi-box-arrow-in-right mr-2"></i> Sign In
+                </button>
+            </div>
         </div>
         <form method="dialog" class="modal-backdrop">
             <button>close</button>

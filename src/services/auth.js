@@ -1,39 +1,120 @@
 import { auth, db } from '../firebase';
 import {
   signInWithPopup,
-  GoogleAuthProvider,
   TwitterAuthProvider,
+  GoogleAuthProvider,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  signOut
+  signOut,
+  updateProfile,
+  fetchSignInMethodsForEmail,
+  signInWithCredential,
+  linkWithCredential,
+  EmailAuthProvider
 } from 'firebase/auth';
 import { doc, setDoc, getDoc, serverTimestamp } from 'firebase/firestore';
-import { ethers } from 'ethers';
 
-const googleProvider = new GoogleAuthProvider();
 const twitterProvider = new TwitterAuthProvider();
+const googleProvider = new GoogleAuthProvider();
 
 export const authService = {
   // Google Sign In
   async signInWithGoogle() {
     try {
-      const result = await signInWithPopup(auth, googleProvider);
-      await this.createUserProfile(result.user);
-      return result.user;
+      // Configure Google Auth Provider to allow account linking
+      googleProvider.setCustomParameters({
+        // This allows a user to sign in with a different account each time
+        prompt: 'select_account'
+      });
+      
+      try {
+        // First, try direct sign-in
+        const result = await signInWithPopup(auth, googleProvider);
+        await this.createUserProfile(result.user);
+        return result.user;
+      } catch (error) {
+        // Handle account exists with different credential error
+        if (error.code === 'auth/account-exists-with-different-credential') {
+          // Get the existing email
+          const email = error.customData.email;
+          
+          // Fetch sign-in methods for this email
+          const methods = await fetchSignInMethodsForEmail(auth, email);
+          
+          if (methods.includes('password')) {
+            // Show a message to the user explaining the situation
+            const message = `An account already exists with the email ${email}. Would you like to sign in with your password?`;
+            if (window.confirm(message)) {
+              const password = window.prompt('Please enter your password to link accounts:');
+              if (password) {
+                // Sign in with email/password
+                const emailCredential = EmailAuthProvider.credential(email, password);
+                const result = await signInWithCredential(auth, emailCredential);
+                
+                // Link the Google credential to this account
+                await linkWithCredential(result.user, error.credential);
+                return result.user;
+              }
+            }
+          }
+          
+          // If we get here, either the user cancelled or linking failed
+          throw error;
+        } else {
+          // For other errors, just rethrow
+          throw error;
+        }
+      }
     } catch (error) {
       console.error('Error signing in with Google:', error);
       throw error;
     }
   },
-
+  
   // Twitter Sign In
   async signInWithTwitter() {
     try {
+      console.log('Starting Twitter sign in process...');
+      
+      // Set Twitter Auth Provider parameters to get additional user info
+      twitterProvider.setCustomParameters({
+        lang: 'en'
+      });
+      
+      console.log('Twitter provider configured, opening popup...');
       const result = await signInWithPopup(auth, twitterProvider);
-      await this.createUserProfile(result.user);
+      
+      console.log('Twitter sign in successful:', result.user.uid);
+      
+      // Try to extract Twitter bio if available
+      const twitterBio = result.user.reloadUserInfo.providerUserInfo
+        .find(p => p.providerId === 'twitter.com')?.bio || '';
+      
+      // Get Twitter profile data
+      const credential = TwitterAuthProvider.credentialFromResult(result);
+      const token = credential.accessToken;
+      const secret = credential.secret;
+      
+      // Include bio in user profile if available
+      await this.createUserProfile(result.user, { bio: twitterBio });
+      
       return result.user;
     } catch (error) {
-      console.error('Error signing in with Twitter:', error);
+      console.error('Twitter sign in error details:', {
+        code: error.code,
+        message: error.message,
+        email: error.customData?.email,
+        credential: error.credential ? 'Present' : 'Missing',
+        customData: error.customData
+      });
+      
+      if (error.code === 'auth/invalid-credential') {
+        console.log('Invalid credential error. This usually means:');
+        console.log('1. Twitter API keys are incorrect in Firebase');
+        console.log('2. Twitter callback URL is not configured correctly');
+        console.log('3. Twitter app permissions are not set correctly');
+      }
+      
       throw error;
     }
   },
@@ -61,37 +142,27 @@ export const authService = {
     }
   },
 
-  // Metamask Sign In
-  async signInWithMetamask() {
+  // Update User Profile
+  async updateUserProfile(user, profileData) {
     try {
-      if (!window.ethereum) {
-        throw new Error('Metamask not installed');
-      }
-
-      const provider = new ethers.BrowserProvider(window.ethereum);
-      await provider.send("eth_requestAccounts", []);
-      const signer = await provider.getSigner();
-      const address = await signer.getAddress();
+      // Update Firebase Auth profile
+      await updateProfile(user, {
+        displayName: profileData.displayName || user.displayName,
+        photoURL: profileData.photoURL || user.photoURL
+      });
       
-      // Sign a message to verify ownership
-      const message = `Sign this message to authenticate with Don't Die Agent: ${Date.now()}`;
-      const signature = await signer.signMessage(message);
+      // Update Firestore user document
+      const userRef = doc(db, 'users', user.uid);
+      await setDoc(userRef, {
+        displayName: profileData.displayName || user.displayName,
+        photoURL: profileData.photoURL || user.photoURL,
+        bio: profileData.bio || '',
+        updatedAt: serverTimestamp()
+      }, { merge: true });
       
-      // Here you would typically verify the signature on your backend
-      // For now, we'll just create/update the user profile
-      const userProfile = {
-        uid: address,
-        displayName: `${address.slice(0, 6)}...${address.slice(-4)}`,
-        photoURL: null,
-        bio: '',
-        connectedWallet: address,
-        createdAt: serverTimestamp()
-      };
-
-      await setDoc(doc(db, 'users', address), userProfile, { merge: true });
-      return userProfile;
+      return user;
     } catch (error) {
-      console.error('Error signing in with Metamask:', error);
+      console.error('Error updating user profile:', error);
       throw error;
     }
   },
@@ -107,7 +178,7 @@ export const authService = {
   },
 
   // Create User Profile
-  async createUserProfile(user) {
+  async createUserProfile(user, additionalData = {}) {
     try {
       const userRef = doc(db, 'users', user.uid);
       const userSnap = await getDoc(userRef);
@@ -118,12 +189,37 @@ export const authService = {
           displayName: user.displayName || null,
           photoURL: user.photoURL || null,
           email: user.email || null,
-          bio: '',
+          bio: additionalData.bio || '',
+          emojis: additionalData.emojis || ['😊', '👍', '��'], // Default emojis
           createdAt: serverTimestamp()
         });
+      } else {
+        // Update existing user with new data if provided
+        if (Object.keys(additionalData).length > 0) {
+          await setDoc(userRef, {
+            ...additionalData,
+            updatedAt: serverTimestamp()
+          }, { merge: true });
+        }
       }
     } catch (error) {
       console.error('Error creating user profile:', error);
+      throw error;
+    }
+  },
+  
+  // Get User Profile
+  async getUserProfile(userId) {
+    try {
+      const userRef = doc(db, 'users', userId);
+      const userSnap = await getDoc(userRef);
+      
+      if (userSnap.exists()) {
+        return userSnap.data();
+      }
+      return null;
+    } catch (error) {
+      console.error('Error getting user profile:', error);
       throw error;
     }
   }
